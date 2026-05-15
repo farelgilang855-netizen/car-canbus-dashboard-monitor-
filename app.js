@@ -53,8 +53,8 @@ function handleLogin() {
     const user = loginUser.value;
     const pass = loginPass.value;
 
-    // CREDENTIALS: admin / 123
-    if (user === 'admin' && pass === '123') {
+    // CREDENTIALS: admin / 911208
+    if (user === 'admin' && pass === '911208') {
         sessionStorage.setItem('isLoggedIn', 'true');
         loginOverlay.classList.add('hidden');
         loginError.style.display = 'none';
