@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CAN Bus Dashboard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Orbitron:wght@500;700;900&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Orbitron:wght@500;700;900&family=Outfit:wght@600;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=41">
 </head>
+
 <body>
     <!-- Login Overlay -->
     <div id="loginOverlay" class="login-overlay">
         <div class="login-box glass-panel">
             <div class="login-header">
                 <div class="login-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
                 </div>
                 <h1>System Access</h1>
                 <p>Please enter credentials to unlock dashboard</p>
@@ -48,7 +55,14 @@
         <!-- Sidebar -->
         <aside class="sidebar glass-panel">
             <div class="logo sidebar-logo">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" />
+                    <circle cx="7" cy="17" r="2" />
+                    <path d="M9 17h6" />
+                    <circle cx="17" cy="17" r="2" />
+                </svg>
                 <h1>Dashboard Monitor</h1>
             </div>
             <nav class="nav-menu">
@@ -74,142 +88,172 @@
 
             <!-- Main Dashboard Grid -->
             <main class="dashboard-grid" id="dashboardView">
-            
-            <!-- Speedometer -->
-            <div class="glass-panel widget gauge-widget">
-                <h2>SPEED</h2>
-                <div class="gauge-container">
-                    <svg viewBox="0 0 100 100" class="gauge" id="speedSvg">
-                        <path class="gauge-bg" d="M 21.7,78.3 A 40,40 0 1,1 78.3,78.3" />
-                        <path class="gauge-fill neon-blue" id="speedGauge" d="M 21.7,78.3 A 40,40 0 1,1 78.3,78.3" />
-                        <polygon class="gauge-needle neon-blue-drop" id="speedNeedle" points="48,50 52,50 50,15" />
-                        <circle cx="50" cy="50" r="4" class="needle-center" />
-                    </svg>
-                    <div class="gauge-value" style="margin-top: 80px;">
-                        <div class="digital-display-box" id="digitalSpeedValue">0</div>
-                        <div class="unit">km/h</div>
-                    </div>
-                </div>
-                <!-- 3-Stage Temperature Status Box -->
-                <div id="tempStatusBox" class="temp-status-box state-blue">
-                    <svg class="temp-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12,16c-1.38,0-2.5-1.12-2.5-2.5c0-0.74,0.32-1.39,0.83-1.85V3.5c0-0.92,0.75-1.67,1.67-1.67s1.67,0.75,1.67,1.67v8.15 c0.51,0.45,0.83,1.11,0.83,1.85C14.5,14.88,13.38,16,12,16z M12.75,5h2V3.5h-2V5z M12.75,8h2V6.5h-2V8z M12.75,11h2V9.5h-2V11z"/>
-                        <path d="M19.5,19.5c-1.1,0-2.1-0.45-2.83-1.17c-0.73,0.72-1.73,1.17-2.83,1.17c-1.1,0-2.1-0.45-2.83-1.17 c-0.73,0.72-1.73,1.17-2.83,1.17s-2.1-0.45-2.83-1.17C4.6,19.05,3.6,19.5,2.5,19.5V18c0.55,0,1.05-0.22,1.41-0.59 c0.37-0.36,0.59-0.86,0.59-1.41h1.5c0,0.55,0.22,1.05,0.59,1.41C6.95,17.78,7.45,18,8,18s1.05-0.22,1.41-0.59 c0.37-0.36,0.59-0.86,0.59-1.41h1.5c0,0.55,0.22,1.05,0.59,1.41c0.36,0.37,0.86,0.59,1.41,0.59s1.05-0.22,1.41-0.59 c0.37-0.36,0.59-0.86,0.59-1.41h1.5c0,0.55,0.22,1.05,0.59,1.41c0.36,0.37,0.86,0.59,1.41,0.59v1.5H19.5z"/>
-                        <path d="M19.5,22.5c-1.1,0-2.1-0.45-2.83-1.17c-0.73,0.72-1.73,1.17-2.83,1.17c-1.1,0-2.1-0.45-2.83-1.17 c-0.73,0.72-1.73,1.17-2.83,1.17s-2.1-0.45-2.83-1.17C4.6,22.05,3.6,22.5,2.5,22.5V21c0.55,0,1.05-0.22,1.41-0.59 c0.37-0.36,0.59-0.86,0.59-1.41h1.5c0,0.55,0.22,1.05,0.59,1.41C6.95,20.78,7.45,21,8,21s1.05-0.22,1.41-0.59 c0.37-0.36,0.59-0.86,0.59-1.41h1.5c0,0.55,0.22,1.05,0.59,1.41c0.36,0.37,0.86,0.59,1.41,0.59s1.05-0.22,1.41-0.59 c0.37-0.36,0.59-0.86,0.59-1.41h1.5c0,0.55,0.22,1.05,0.59,1.41c0.36,0.37,0.86,0.59,1.41,0.59v1.5H19.5z"/>
-                    </svg>
-                    <span id="tempStatusText" class="warning-text">ENGINE COLD</span>
-                </div>
-            </div>
 
-            <!-- RPM -->
-            <div class="glass-panel widget gauge-widget">
-                <h2>RPM</h2>
-                <div class="gauge-container">
-                    <svg viewBox="0 0 100 100" class="gauge" id="rpmSvg">
-                        <path class="gauge-bg" d="M 21.7,78.3 A 40,40 0 1,1 78.3,78.3" />
-                        <path class="gauge-fill neon-red" id="rpmGauge" d="M 21.7,78.3 A 40,40 0 1,1 78.3,78.3" />
-                        <polygon class="gauge-needle neon-red-drop" id="rpmNeedle" points="48,50 52,50 50,15" />
-                        <circle cx="50" cy="50" r="4" class="needle-center" />
-                    </svg>
-                    <div class="gauge-value" style="margin-top: 80px;">
-                        <div class="digital-display-box" id="digitalRpmValue">0.0</div>
-                        <div class="unit">x1000</div>
+                <!-- Speedometer -->
+                <div class="glass-panel widget gauge-widget">
+                    <h2>SPEED</h2>
+                    <div class="gauge-container">
+                        <svg viewBox="0 0 100 100" class="gauge" id="speedSvg">
+                            <path class="gauge-bg" d="M 21.7,78.3 A 40,40 0 1,1 78.3,78.3" />
+                            <path class="gauge-fill neon-blue" id="speedGauge"
+                                d="M 21.7,78.3 A 40,40 0 1,1 78.3,78.3" />
+                            <polygon class="gauge-needle neon-blue-drop" id="speedNeedle" points="48,50 52,50 50,15" />
+                            <circle cx="50" cy="50" r="4" class="needle-center" />
+                        </svg>
+                        <div class="gauge-value" style="margin-top: 80px;">
+                            <div class="digital-display-box" id="digitalSpeedValue">0</div>
+                            <div class="unit">km/h</div>
+                        </div>
+                    </div>
+                    <!-- 3-Stage Temperature Status Box -->
+                    <div id="tempStatusBox" class="temp-status-box state-blue">
+                        <svg class="temp-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12,16c-1.38,0-2.5-1.12-2.5-2.5c0-0.74,0.32-1.39,0.83-1.85V3.5c0-0.92,0.75-1.67,1.67-1.67s1.67,0.75,1.67,1.67v8.15 c0.51,0.45,0.83,1.11,0.83,1.85C14.5,14.88,13.38,16,12,16z M12.75,5h2V3.5h-2V5z M12.75,8h2V6.5h-2V8z M12.75,11h2V9.5h-2V11z" />
+                            <path
+                                d="M19.5,19.5c-1.1,0-2.1-0.45-2.83-1.17c-0.73,0.72-1.73,1.17-2.83,1.17c-1.1,0-2.1-0.45-2.83-1.17 c-0.73,0.72-1.73,1.17-2.83,1.17s-2.1-0.45-2.83-1.17C4.6,19.05,3.6,19.5,2.5,19.5V18c0.55,0,1.05-0.22,1.41-0.59 c0.37-0.36,0.59-0.86,0.59-1.41h1.5c0,0.55,0.22,1.05,0.59,1.41C6.95,17.78,7.45,18,8,18s1.05-0.22,1.41-0.59 c0.37-0.36,0.59-0.86,0.59-1.41h1.5c0,0.55,0.22,1.05,0.59,1.41c0.36,0.37,0.86,0.59,1.41,0.59s1.05-0.22,1.41-0.59 c0.37-0.36,0.59-0.86,0.59-1.41h1.5c0,0.55,0.22,1.05,0.59,1.41c0.36,0.37,0.86,0.59,1.41,0.59v1.5H19.5z" />
+                            <path
+                                d="M19.5,22.5c-1.1,0-2.1-0.45-2.83-1.17c-0.73,0.72-1.73,1.17-2.83,1.17c-1.1,0-2.1-0.45-2.83-1.17 c-0.73,0.72-1.73,1.17-2.83,1.17s-2.1-0.45-2.83-1.17C4.6,22.05,3.6,22.5,2.5,22.5V21c0.55,0,1.05-0.22,1.41-0.59 c0.37-0.36,0.59-0.86,0.59-1.41h1.5c0,0.55,0.22,1.05,0.59,1.41C6.95,20.78,7.45,21,8,21s1.05-0.22,1.41-0.59 c0.37-0.36,0.59-0.86,0.59-1.41h1.5c0,0.55,0.22,1.05,0.59,1.41c0.36,0.37,0.86,0.59,1.41,0.59s1.05-0.22,1.41-0.59 c0.37-0.36,0.59-0.86,0.59-1.41h1.5c0,0.55,0.22,1.05,0.59,1.41c0.36,0.37,0.86,0.59,1.41,0.59v1.5H19.5z" />
+                        </svg>
+                        <span id="tempStatusText" class="warning-text">ENGINE COLD</span>
                     </div>
                 </div>
-                <!-- Gear indicator moved to corner -->
-                <div class="gear-corner-box">
-                    <span class="gear-label">GEARS</span>
-                    <div class="digital-display-box gear-box" id="gearValue">P</div>
+
+                <!-- RPM -->
+                <div class="glass-panel widget gauge-widget">
+                    <h2>RPM</h2>
+                    <div class="gauge-container">
+                        <svg viewBox="0 0 100 100" class="gauge" id="rpmSvg">
+                            <path class="gauge-bg" d="M 21.7,78.3 A 40,40 0 1,1 78.3,78.3" />
+                            <path class="gauge-fill neon-pink" id="rpmGauge" d="M 21.7,78.3 A 40,40 0 1,1 78.3,78.3" />
+                            <polygon class="gauge-needle neon-pink-drop" id="rpmNeedle" points="48,50 52,50 50,15" />
+                            <circle cx="50" cy="50" r="4" class="needle-center" />
+                        </svg>
+                        <div class="gauge-value" style="margin-top: 80px;">
+                            <div class="digital-display-box" id="digitalRpmValue">0.0</div>
+                            <div class="unit">x1000</div>
+                        </div>
+                    </div>
+                    <!-- Gear indicator moved to corner -->
+                    <div class="gear-corner-box">
+                        <span class="gear-label">GEARS</span>
+                        <div class="digital-display-box gear-box" id="gearValue">P</div>
+                    </div>
                 </div>
-            </div>
 
 
-            <!-- Linear Bars 1 (Temp & Fuel) -->
-            <div class="glass-panel widget bars-widget">
-                <div class="bar-container">
-                    <div class="bar-header">
-                        <div class="indicator-title">
-                            <svg class="indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
-                            <span>Engine Temp</span>
+                <!-- Linear Bars 1 (Temp & Fuel) -->
+                <div class="glass-panel widget bars-widget">
+                    <div class="bar-container">
+                        <div class="bar-header">
+                            <div class="indicator-title">
+                                <svg class="indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" />
+                                </svg>
+                                <span>Engine Temp</span>
+                            </div>
+                            <span id="tempValue">90°C</span>
                         </div>
-                        <span id="tempValue">90°C</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill neon-orange" id="tempFill" style="width: 50%;"></div>
-                    </div>
-                </div>
-                
-                <div class="bar-container">
-                    <div class="bar-header">
-                        <div class="indicator-title">
-                            <svg class="indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="20" x2="21" y2="20"/><path d="M6 18V6c0-1 1-2 2-2h8c1 0 2 1 2 2v12"/><rect x="9" y="8" width="6" height="4"/><path d="M21 13c0-3-4-3-4 0v5"/></svg>
-                            <span>Fuel Level</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill neon-orange" id="tempFill" style="width: 50%;"></div>
                         </div>
-                        <span id="fuelValue">75%</span>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill neon-green" id="fuelFill" style="width: 75%;"></div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Linear Bars 2 (Battery & Throttle) -->
-            <div class="glass-panel widget bars-widget">
-                <div class="bar-container">
-                    <div class="bar-header">
-                        <div class="indicator-title">
-                            <svg class="indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="16" height="12" rx="2" ry="2"/><line x1="22" y1="11" x2="22" y2="15"/><line x1="6" y1="11" x2="10" y2="11"/><line x1="8" y1="9" x2="8" y2="13"/></svg>
-                            <span>Battery</span>
+                    <div class="bar-container">
+                        <div class="bar-header">
+                            <div class="indicator-title">
+                                <svg class="indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="3" y1="20" x2="21" y2="20" />
+                                    <path d="M6 18V6c0-1 1-2 2-2h8c1 0 2 1 2 2v12" />
+                                    <rect x="9" y="8" width="6" height="4" />
+                                    <path d="M21 13c0-3-4-3-4 0v5" />
+                                </svg>
+                                <span>Fuel Level</span>
+                            </div>
+                            <span id="fuelValue">75%</span>
                         </div>
-                        <span id="batteryValue">12.4V</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill neon-blue" id="batteryFill" style="width: 60%;"></div>
+                        <div class="progress-bar">
+                            <div class="progress-fill neon-green" id="fuelFill" style="width: 75%;"></div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="bar-container">
-                    <div class="bar-header">
-                        <div class="indicator-title">
-                            <svg class="indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></svg>
-                            <span>Throttle</span>
-                        </div>
-                        <span id="throttleValue">0%</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill neon-orange" id="throttleFill" style="width: 0%;"></div>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Linear Bars 3 (Engine Load & Intake Temp) -->
-            <div class="glass-panel widget bars-widget">
-                <div class="bar-container">
-                    <div class="bar-header">
-                        <div class="indicator-title">
-                            <svg class="indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
-                            <span>Engine Load</span>
+                <!-- Linear Bars 2 (Battery & Throttle) -->
+                <div class="glass-panel widget bars-widget">
+                    <div class="bar-container">
+                        <div class="bar-header">
+                            <div class="indicator-title">
+                                <svg class="indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="7" width="16" height="12" rx="2" ry="2" />
+                                    <line x1="22" y1="11" x2="22" y2="15" />
+                                    <line x1="6" y1="11" x2="10" y2="11" />
+                                    <line x1="8" y1="9" x2="8" y2="13" />
+                                </svg>
+                                <span>Battery</span>
+                            </div>
+                            <span id="batteryValue">12.4V</span>
                         </div>
-                        <span id="loadValue">20%</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill neon-blue" id="batteryFill" style="width: 60%;"></div>
+                        </div>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill neon-red" id="loadFill" style="width: 20%;"></div>
+
+                    <div class="bar-container">
+                        <div class="bar-header">
+                            <div class="indicator-title">
+                                <svg class="indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="m12 14 4-4" />
+                                    <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+                                </svg>
+                                <span>Throttle</span>
+                            </div>
+                            <span id="throttleValue">0%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill neon-orange" id="throttleFill" style="width: 0%;"></div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="bar-container">
-                    <div class="bar-header">
-                        <div class="indicator-title">
-                            <svg class="indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.7 7.7a2.5 2.5 0 1 1 3.5 3.5L12 20l-9.2-8.8a2.5 2.5 0 1 1 3.5-3.5L12 13l5.7-5.3Z"/></svg>
-                            <span>Intake Temp</span>
+
+                <!-- Linear Bars 3 (Engine Load & Intake Temp) -->
+                <div class="glass-panel widget bars-widget">
+                    <div class="bar-container">
+                        <div class="bar-header">
+                            <div class="indicator-title">
+                                <svg class="indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+                                </svg>
+                                <span>Engine Load</span>
+                            </div>
+                            <span id="loadValue">20%</span>
                         </div>
-                        <span id="intakeValue">35°C</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill neon-red" id="loadFill" style="width: 20%;"></div>
+                        </div>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill neon-green" id="intakeFill" style="width: 30%;"></div>
+
+                    <div class="bar-container">
+                        <div class="bar-header">
+                            <div class="indicator-title">
+                                <svg class="indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path
+                                        d="M17.7 7.7a2.5 2.5 0 1 1 3.5 3.5L12 20l-9.2-8.8a2.5 2.5 0 1 1 3.5-3.5L12 13l5.7-5.3Z" />
+                                </svg>
+                                <span>Intake Temp</span>
+                            </div>
+                            <span id="intakeValue">35°C</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill neon-green" id="intakeFill" style="width: 30%;"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
             </main>
 
@@ -234,7 +278,7 @@
                     </div>
                 </div>
             </main>
-            
+
             <!-- History View -->
             <main class="history-view" id="historyView" style="display: none;">
                 <div class="dashboard-grid">
@@ -272,4 +316,5 @@
 
     <script src="app.js?v=41"></script>
 </body>
+
 </html>
