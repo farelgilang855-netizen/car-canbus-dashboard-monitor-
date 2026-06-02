@@ -442,7 +442,46 @@ function logEventToHistory(time, message, className) {
 window.toggleMonitoring = toggleMonitoring;
 
 // Start simulation loop (every 100ms)
-simulationInterval = setInterval(simulateCanData, 100);
+//simulationInterval = setInterval(simulateCanData, 100);
+
+// Firebase Realtime Data
+async function readFirebaseData() {
+
+    try {
+
+        const response = await fetch(
+            'https://cardashboardmonitor-default-rtdb.asia-southeast1.firebasedatabase.app/car.json'
+        );
+
+        const data = await response.json();
+
+        if (!data) return;
+
+        updateDashboard(data);
+
+        document.getElementById('connectionDot').className =
+            'status-dot connected';
+
+        document.getElementById('connectionStatus').innerText =
+            'Firebase Connected';
+
+    } catch (err) {
+
+        document.getElementById('connectionDot').className =
+            'status-dot disconnected';
+
+        document.getElementById('connectionStatus').innerText =
+            'Firebase Error';
+
+        console.error(err);
+    }
+}
+
+// Ambil data setiap 1 detik
+setInterval(readFirebaseData, 1000);
+
+// Jalankan sekali saat halaman dibuka
+readFirebaseData();
 
 /*
 // -------------------------------------------------------------
