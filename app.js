@@ -499,7 +499,7 @@ if (window.lastCanLog !== data.canlog) {
 }
 
 // Ambil data setiap 1 detik
-setInterval(readFirebaseData, 500);
+setInterval(readFirebaseData, 100);
 
 // Jalankan sekali saat halaman dibuka
 readFirebaseData();
