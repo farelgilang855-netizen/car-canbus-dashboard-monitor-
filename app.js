@@ -459,6 +459,22 @@ async function readFirebaseData() {
 
         updateDashboard(data);
 
+// Tambahkan CAN Log dari Firebase
+if (data.canlog) {
+
+if (window.lastCanLog !== data.canlog) {
+
+    window.lastCanLog = data.canlog;
+
+    addCanLog(
+        0x7E8,
+        8,
+        data.canlog
+    );
+}
+
+}
+
         document.getElementById('connectionDot').className =
             'status-dot connected';
 
@@ -478,7 +494,7 @@ async function readFirebaseData() {
 }
 
 // Ambil data setiap 1 detik
-setInterval(readFirebaseData, 1000);
+setInterval(readFirebaseData, 500);
 
 // Jalankan sekali saat halaman dibuka
 readFirebaseData();
