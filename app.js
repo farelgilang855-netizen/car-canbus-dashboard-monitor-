@@ -401,6 +401,9 @@ function toggleMonitoring() {
     const timestamp = new Date().toLocaleTimeString();
     
     if (isMonitoring) {
+
+readFirebaseData();
+
         btnToggleSim.innerText = 'Stop Monitoring';
         btnToggleSim.classList.remove('stopped');
         if (dashboardGrid) dashboardGrid.classList.remove('dashboard-off');
@@ -446,6 +449,8 @@ window.toggleMonitoring = toggleMonitoring;
 
 // Firebase Realtime Data
 async function readFirebaseData() {
+
+if (!isMonitoring) return;
 
     try {
 
