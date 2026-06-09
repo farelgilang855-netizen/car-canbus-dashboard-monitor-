@@ -46,19 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('isLoggedIn') === 'true') {
         if (loginOverlay) loginOverlay.classList.add('hidden');
     }
-
-  btnToggleSim.innerText = 'Start Monitoring';
-    btnToggleSim.classList.add('stopped');
-
-    if (connectionDot)
-        connectionDot.className = 'status-dot disconnected';
-
-    if (connectionStatus)
-        connectionStatus.innerText = 'Monitoring Stopped';
-
-    resetDashboard();
-
-
 });
 
 // Login Logic
