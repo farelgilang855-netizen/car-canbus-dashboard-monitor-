@@ -57,12 +57,18 @@ document.addEventListener('DOMContentLoaded', () => {
         connectionStatus.innerText = 'Monitoring Stopped';
 
     resetDashboard();
+
+const dashboardGrid = document.getElementById('dashboardView');
+
+if (dashboardGrid) {
+    dashboardGrid.classList.add('dashboard-off');
 }
+
 
 });
 
 // Login Logic
-function handleLogin() {s
+function handleLogin() {
     const user = loginUser.value;
     const pass = loginPass.value;
 
