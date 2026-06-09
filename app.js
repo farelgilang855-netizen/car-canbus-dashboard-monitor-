@@ -674,12 +674,14 @@ setInterval(() => {
         overallAvgRpmEl.innerText = overallAvg.toFixed(2);
     }
 
-    // Reset interval arrays
-    currentIntervalSpeeds = [];
-    currentIntervalRpms = [];
+  // Reset interval arrays
+currentIntervalSpeeds = [];
+currentIntervalRpms = [];
 
-}, 10000); 
+}, 10000);   // <- penutup history logging
 
+
+// Watchdog data Firebase
 setInterval(() => {
 
     if (Date.now() - lastDataTime > 3000) {
@@ -693,4 +695,4 @@ setInterval(() => {
             connectionStatus.innerText = 'No Data';
     }
 
-}, 10000);
+}, 1000);
