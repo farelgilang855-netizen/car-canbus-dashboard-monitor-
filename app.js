@@ -677,18 +677,4 @@ setInterval(() => {
     // Reset interval arrays
     currentIntervalSpeeds = [];
     currentIntervalRpms = [];
-
-setInterval(() => {
-
-    if (Date.now() - lastDataTime > 3000) {
-
-        resetDashboard();
-
-        if (connectionDot)
-            connectionDot.className = 'status-dot disconnected';
-
-        if (connectionStatus)
-            connectionStatus.innerText = 'No Data';
-    }
-
 }, 10000);
