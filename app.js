@@ -357,6 +357,8 @@ let simulationInterval = null;
 let isMonitoring = false;
 let firebaseInterval = null;
 
+let lastDataTime = Date.now();
+
 function simulateCanData() {
     if (!isMonitoring) return;
 
@@ -498,6 +500,9 @@ if (!isMonitoring) return;
         const data = await response.json();
 
         if (!data) return;
+
+// Data berhasil diterima
+lastDataTime = Date.now();
 
         updateDashboard(data);
 
@@ -672,4 +677,18 @@ setInterval(() => {
     // Reset interval arrays
     currentIntervalSpeeds = [];
     currentIntervalRpms = [];
+
+setInterval(() => {
+
+    if (Date.now() - lastDataTime > 3000) {
+
+        resetDashboard();
+
+        if (connectionDot)
+            connectionDot.className = 'status-dot disconnected';
+
+        if (connectionStatus)
+            connectionStatus.innerText = 'No Data';
+    }
+
 }, 10000);
