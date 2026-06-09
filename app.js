@@ -58,11 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     resetDashboard();
 
-const dashboardGrid = document.getElementById('dashboardView');
-
-if (dashboardGrid) {
-    dashboardGrid.classList.add('dashboard-off');
-}
 
 });
 
