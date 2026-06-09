@@ -678,6 +678,8 @@ setInterval(() => {
     currentIntervalSpeeds = [];
     currentIntervalRpms = [];
 
+}, 10000); 
+
 setInterval(() => {
 
     if (Date.now() - lastDataTime > 3000) {
