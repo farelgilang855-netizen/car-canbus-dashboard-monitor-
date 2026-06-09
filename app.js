@@ -300,21 +300,33 @@ function updateDashboard(data) {
     }
 }
 
-// Function to reset dashboard to zero/off state
 function resetDashboard() {
-    updateDashboard({
-        speed: 0,
-        rpm: 0,
-        temp: 0,
-        fuel: 0,
-        gear: '-',
-        battery: 0,
-        throttle: 0,
-        load: 0,
-        intake: 0
-    });
-    
-    // Clear logs if needed or just leave them
+
+    updateGauge(speedGauge, 0, 220, speedNeedle);
+    updateGauge(rpmGauge, 0, 8000, rpmNeedle);
+
+    speedValue.innerText = "0";
+    digitalSpeedValue.innerText = "0";
+
+    rpmValue.innerText = "0.0";
+    digitalRpmValue.innerText = "0.0";
+
+    tempValue.innerText = "0°C";
+    fuelValue.innerText = "0%";
+    batteryValue.innerText = "0V";
+    throttleValue.innerText = "0%";
+    loadValue.innerText = "0%";
+    intakeValue.innerText = "0°C";
+
+    if (gearValue)
+        gearValue.innerText = "-";
+
+    tempFill.style.width = "0%";
+    fuelFill.style.width = "0%";
+    batteryFill.style.width = "0%";
+    throttleFill.style.width = "0%";
+    loadFill.style.width = "0%";
+    intakeFill.style.width = "0%";
 }
 
 
@@ -358,6 +370,7 @@ let isMonitoring = false;
 let firebaseInterval = null;
 
 let lastDataTime = Date.now();
+let lastTimestamp = 0;
 
 function simulateCanData() {
     if (!isMonitoring) return;
@@ -497,14 +510,21 @@ if (!isMonitoring) return;
             'https://cardashboardmonitor-default-rtdb.asia-southeast1.firebasedatabase.app/car.json'
         );
 
-        const data = await response.json();
+const data = await response.json();
 
-        if (!data) return;
+if (!data) return;
 
-// Data berhasil diterima
-lastDataTime = Date.now();
+if (data.timestamp !== undefined) {
+
+    if (data.timestamp !== lastTimestamp) {
+
+        lastTimestamp = data.timestamp;
+
+        lastDataTime = Date.now();
 
         updateDashboard(data);
+    }
+}
 
 // Tambahkan CAN Log dari Firebase
 if (data.canlog) {
@@ -689,10 +709,12 @@ setInterval(() => {
         resetDashboard();
 
         if (connectionDot)
-            connectionDot.className = 'status-dot disconnected';
+            connectionDot.className =
+                'status-dot disconnected';
 
         if (connectionStatus)
-            connectionStatus.innerText = 'No Data';
+            connectionStatus.innerText =
+                'No Data';
     }
 
-}, 1000);
+}, 500);
