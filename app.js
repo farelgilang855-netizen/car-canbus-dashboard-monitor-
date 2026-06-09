@@ -46,6 +46,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (sessionStorage.getItem('isLoggedIn') === 'true') {
         if (loginOverlay) loginOverlay.classList.add('hidden');
     }
+
+  btnToggleSim.innerText = 'Start Monitoring';
+    btnToggleSim.classList.add('stopped');
+
+    if (connectionDot)
+        connectionDot.className = 'status-dot disconnected';
+
+    if (connectionStatus)
+        connectionStatus.innerText = 'Monitoring Stopped';
+
+    resetDashboard();
 });
 
 // Login Logic
@@ -335,7 +346,7 @@ let simIntake = 35;
 let simGear = 'P';
 
 let simulationInterval = null;
-let isMonitoring = true;
+let isMonitoring = false;
 
 function simulateCanData() {
     if (!isMonitoring) return;
@@ -501,8 +512,10 @@ if (window.lastCanLog !== data.canlog) {
 // Ambil data setiap 1 detik
 setInterval(readFirebaseData, 100);
 
-// Jalankan sekali saat halaman dibuka
-readFirebaseData();
+// Jangan langsung membaca Firebase saat halaman dibuka
+if (isMonitoring) {
+    readFirebaseData();
+}
 
 /*
 // -------------------------------------------------------------
