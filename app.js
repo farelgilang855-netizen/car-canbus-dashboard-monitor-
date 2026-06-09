@@ -355,6 +355,7 @@ let simGear = 'P';
 
 let simulationInterval = null;
 let isMonitoring = false;
+let firebaseInterval = null;
 
 function simulateCanData() {
     if (!isMonitoring) return;
@@ -421,6 +422,15 @@ function toggleMonitoring() {
     
     if (isMonitoring) {
 
+    if (!firebaseInterval) {
+
+        firebaseInterval = setInterval(
+            readFirebaseData,
+            500
+        );
+    }
+
+
 readFirebaseData();
 
         btnToggleSim.innerText = 'Stop Monitoring';
@@ -432,6 +442,14 @@ readFirebaseData();
 
         logEventToHistory(timestamp, 'Monitoring Started', 'status-start');
     } else {
+
+    if (firebaseInterval) {
+
+        clearInterval(firebaseInterval);
+
+        firebaseInterval = null;
+    }
+
         btnToggleSim.innerText = 'Start Monitoring';
         btnToggleSim.classList.add('stopped');
         if (dashboardGrid) dashboardGrid.classList.add('dashboard-off');
@@ -517,11 +535,13 @@ if (window.lastCanLog !== data.canlog) {
     }
 }
 
-// Ambil data setiap 1 detik
-setInterval(readFirebaseData, 100);
-
-// Jangan langsung membaca Firebase saat halaman dibuka
 if (isMonitoring) {
+
+    firebaseInterval = setInterval(
+        readFirebaseData,
+        500
+    );
+
     readFirebaseData();
 }
 
