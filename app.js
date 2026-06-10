@@ -305,18 +305,18 @@ function resetDashboard() {
     updateGauge(speedGauge, 0, 220, speedNeedle);
     updateGauge(rpmGauge, 0, 8000, rpmNeedle);
 
-    speedValue.innerText = "0";
-    digitalSpeedValue.innerText = "0";
+    if (speedValue) speedValue.innerText = "0";
+    if (digitalSpeedValue) digitalSpeedValue.innerText = "0";
 
-    rpmValue.innerText = "0.0";
-    digitalRpmValue.innerText = "0.0";
+    if (rpmValue) rpmValue.innerText = "0.0";
+    if (digitalRpmValue) digitalRpmValue.innerText = "0.0";
 
-    tempValue.innerText = "0°C";
-    fuelValue.innerText = "0%";
-    batteryValue.innerText = "0V";
-    throttleValue.innerText = "0%";
-    loadValue.innerText = "0%";
-    intakeValue.innerText = "0°C";
+    if (tempValue) tempValue.innerText = "0°C";
+    if (fuelValue) fuelValue.innerText = "0%";
+    if (batteryValue) batteryValue.innerText = "0V";
+    if (throttleValue) throttleValue.innerText = "0%";
+    if (loadValue) loadValue.innerText = "0%";
+    if (intakeValue) intakeValue.innerText = "0°C";
 
     if (gearValue)
         gearValue.innerText = "-";
