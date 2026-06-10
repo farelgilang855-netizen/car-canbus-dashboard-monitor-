@@ -89,6 +89,17 @@ if (btnHamburger && sidebar) {
 }
 
 // Navigation Logic
+const btnSettings = document.getElementById('btnSettings');
+const settingsSubmenu = document.getElementById('settingsSubmenu');
+
+if (btnSettings && settingsSubmenu) {
+    btnSettings.addEventListener('click', (e) => {
+        settingsSubmenu.classList.toggle('show');
+        btnSettings.classList.toggle('expanded');
+        e.stopPropagation();
+    });
+}
+
 function handleLogin() {
     const user = loginUser.value;
     const pass = loginPass.value;
@@ -427,6 +438,12 @@ function updateDashboard(data) {
         intakeValue.innerText = `${Math.round(data.intake)}\u00B0C`;
         const intakePercent = Math.min(100, (data.intake / 100) * 100);
         intakeFill.style.width = `${intakePercent}%`;
+    }
+
+    // Update WiFi SSID
+    if (data.wifi_ssid !== undefined) {
+        const wifiNameEl = document.getElementById('currentWifiName');
+        if (wifiNameEl) wifiNameEl.innerText = data.wifi_ssid;
     }
 }
 

@@ -69,7 +69,19 @@
                 <button class="nav-btn active" id="btnDashboard">Dashboard</button>
                 <button class="nav-btn" id="btnLogs">CAN Logs</button>
                 <button class="nav-btn" id="btnHistory">Data Riwayat</button>
-                <button class="nav-btn" id="btnWifiSettings">Pengaturan Wi-Fi</button>
+                <div class="menu-group">
+                    <button class="nav-btn" id="btnSettings" style="display: flex; justify-content: space-between; align-items: center;">
+                        Settings
+                        <svg class="dropdown-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                    <div class="submenu" id="settingsSubmenu">
+                        <div class="current-wifi-info">
+                            <span class="wifi-label">Terkoneksi ke:</span>
+                            <span class="wifi-name" id="currentWifiName">Memuat...</span>
+                        </div>
+                        <button class="nav-btn sub-btn" id="btnWifiSettings">Pengaturan Wi-Fi</button>
+                    </div>
+                </div>
             </nav>
             <div class="sidebar-footer">
                 <button class="nav-btn" id="btnToggleSim" onclick="toggleMonitoring()">Stop Monitoring</button>
