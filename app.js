@@ -72,14 +72,18 @@ const btnHamburger = document.getElementById('btnHamburger');
 const sidebar = document.querySelector('.sidebar');
 
 if (btnHamburger && sidebar) {
+    const mainContent = document.querySelector('.main-content');
+    
     btnHamburger.addEventListener('click', (e) => {
         sidebar.classList.toggle('show');
+        if (mainContent) mainContent.classList.toggle('blur-effect');
         e.stopPropagation();
     });
 
     document.addEventListener('click', (e) => {
         if (sidebar.classList.contains('show') && !sidebar.contains(e.target)) {
             sidebar.classList.remove('show');
+            if (mainContent) mainContent.classList.remove('blur-effect');
         }
     });
 }

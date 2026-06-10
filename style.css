@@ -81,7 +81,9 @@ body {
 .sidebar {
     width: 260px;
     height: 100vh;
+    height: 100dvh;
     padding: 2rem 1.5rem;
+    padding-bottom: max(2rem, env(safe-area-inset-bottom));
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -93,6 +95,7 @@ body {
     border-right: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 5px 0 20px rgba(0,0,0,0.5);
     margin: 0;
+    overflow-y: auto;
 }
 
 .sidebar.show {
@@ -179,6 +182,12 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    transition: filter 0.3s ease;
+}
+
+.main-content.blur-effect {
+    filter: blur(5px);
+    pointer-events: none;
 }
 
 /* Header */
