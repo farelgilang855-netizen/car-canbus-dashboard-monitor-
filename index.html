@@ -80,7 +80,16 @@
         <div class="main-content">
             <!-- Header -->
             <header class="header">
-                <h2>Overview</h2>
+                <div class="header-left" style="display: flex; align-items: center; gap: 1rem;">
+                    <button id="btnHamburger" class="nav-btn" style="padding: 0.5rem; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.05);">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <h2>Overview</h2>
+                </div>
                 <div class="status-indicator">
                     <span class="status-dot simulated" id="connectionDot"></span>
                     <span class="status-text" id="connectionStatus">Simulated Data</span>
@@ -154,7 +163,7 @@
                                 </svg>
                                 <span>Engine Temp</span>
                             </div>
-                            <span id="tempValue">90°C</span>
+                            <span id="tempValue">90&deg;C</span>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill neon-orange" id="tempFill" style="width: 50%;"></div>
@@ -248,7 +257,7 @@
                                 </svg>
                                 <span>Intake Temp</span>
                             </div>
-                            <span id="intakeValue">35°C</span>
+                            <span id="intakeValue">35&deg;C</span>
                         </div>
                         <div class="progress-bar">
                             <div class="progress-fill neon-green" id="intakeFill" style="width: 30%;"></div>

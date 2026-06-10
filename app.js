@@ -67,7 +67,24 @@ if (dashboardGrid) {
 
 });
 
-// Login Logic
+// Sidebar Toggle Logic
+const btnHamburger = document.getElementById('btnHamburger');
+const sidebar = document.querySelector('.sidebar');
+
+if (btnHamburger && sidebar) {
+    btnHamburger.addEventListener('click', (e) => {
+        sidebar.classList.toggle('show');
+        e.stopPropagation();
+    });
+
+    document.addEventListener('click', (e) => {
+        if (sidebar.classList.contains('show') && !sidebar.contains(e.target)) {
+            sidebar.classList.remove('show');
+        }
+    });
+}
+
+// Navigation Logic
 function handleLogin() {
     const user = loginUser.value;
     const pass = loginPass.value;
@@ -338,7 +355,7 @@ function updateDashboard(data) {
 
     // Update Temp
     if (data.temp !== undefined) {
-        tempValue.innerText = `${Math.round(data.temp)}°C`;
+        tempValue.innerText = `${Math.round(data.temp)}\u00B0C`;
         // Assuming normal temp is 90, max is 130
         const tempPercent = Math.min(100, (data.temp / 130) * 100);
         tempFill.style.width = `${tempPercent}%`;
@@ -403,7 +420,7 @@ function updateDashboard(data) {
 
     // Update Intake Temp
     if (data.intake !== undefined) {
-        intakeValue.innerText = `${Math.round(data.intake)}°C`;
+        intakeValue.innerText = `${Math.round(data.intake)}\u00B0C`;
         const intakePercent = Math.min(100, (data.intake / 100) * 100);
         intakeFill.style.width = `${intakePercent}%`;
     }
@@ -420,12 +437,12 @@ function resetDashboard() {
     if (rpmValue) rpmValue.innerText = "0.0";
     if (digitalRpmValue) digitalRpmValue.innerText = "0.0";
 
-    if (tempValue) tempValue.innerText = "0°C";
+    if (tempValue) tempValue.innerText = "0\u00B0C";
     if (fuelValue) fuelValue.innerText = "0%";
     if (batteryValue) batteryValue.innerText = "0V";
     if (throttleValue) throttleValue.innerText = "0%";
     if (loadValue) loadValue.innerText = "0%";
-    if (intakeValue) intakeValue.innerText = "0°C";
+    if (intakeValue) intakeValue.innerText = "0\u00B0C";
 
     if (gearValue)
         gearValue.innerText = "-";
@@ -546,16 +563,14 @@ function toggleMonitoring() {
     
     if (isMonitoring) {
 
-    if (!firebaseInterval) {
-
-        firebaseInterval = setInterval(
-            readFirebaseData,
+    if (!dataInterval) {
+        dataInterval = setInterval(
+            readVehicleData,
             500
         );
     }
 
-
-readFirebaseData();
+    readVehicleData();
 
         btnToggleSim.innerText = 'Stop Monitoring';
         btnToggleSim.classList.remove('stopped');
@@ -567,11 +582,9 @@ readFirebaseData();
         logEventToHistory(timestamp, 'Monitoring Started', 'status-start');
     } else {
 
-    if (firebaseInterval) {
-
-        clearInterval(firebaseInterval);
-
-        firebaseInterval = null;
+    if (dataInterval) {
+        clearInterval(dataInterval);
+        dataInterval = null;
     }
 
         btnToggleSim.innerText = 'Start Monitoring';
@@ -608,75 +621,79 @@ window.toggleMonitoring = toggleMonitoring;
 // Start simulation loop (every 100ms)
 //simulationInterval = setInterval(simulateCanData, 100);
 
-// Firebase Realtime Data
-async function readFirebaseData() {
+// Data Fetching logic (Dual Mode: Firebase or Local ESP32)
+async function readVehicleData() {
+    if (!isMonitoring) return;
 
-if (!isMonitoring) return;
+    const isRealESP32 = window.location.hostname !== 'localhost' && 
+                       window.location.hostname !== '127.0.0.1' && 
+                       window.location.hostname !== '' && 
+                       !window.location.hostname.includes('github.io');
 
     try {
+        if (isRealESP32) {
+            // Jalur Offline/Lokal
+            const response = await fetch('/api/data');
+            const data = await response.json();
+            
+            if (!data) return;
+            
+            lastDataTime = Date.now();
+            updateDashboard(data);
+            
+            if (data.can_log_id) {
+                addCanLog(parseInt(data.can_log_id), data.can_log_dlc || 8, data.can_log_data || "");
+            }
+            
+            const dot = document.getElementById('connectionDot');
+            const stat = document.getElementById('connectionStatus');
+            if (dot) dot.className = 'status-dot connected';
+            if (stat) stat.innerText = 'ECU Connected';
 
-        const response = await fetch(
-            'https://cardashboardmonitor-default-rtdb.asia-southeast1.firebasedatabase.app/car.json'
-        );
+        } else {
+            // Jalur Online (Firebase)
+            const response = await fetch('https://cardashboardmonitor-default-rtdb.asia-southeast1.firebasedatabase.app/car.json');
+            const data = await response.json();
 
-const data = await response.json();
+            if (!data) return;
 
-if (!data) return;
+            if (data.timestamp !== undefined) {
+                if (data.timestamp !== lastTimestamp) {
+                    lastTimestamp = data.timestamp;
+                    lastDataTime = Date.now();
+                    updateDashboard(data);
+                }
+            }
 
-if (data.timestamp !== undefined) {
+            if (data.canlog) {
+                if (window.lastCanLog !== data.canlog) {
+                    window.lastCanLog = data.canlog;
+                    addCanLog(0x7E8, 8, data.canlog);
+                }
+            }
 
-    if (data.timestamp !== lastTimestamp) {
-
-        lastTimestamp = data.timestamp;
-
-        lastDataTime = Date.now();
-
-        updateDashboard(data);
-    }
-}
-
-// Tambahkan CAN Log dari Firebase
-if (data.canlog) {
-
-if (window.lastCanLog !== data.canlog) {
-
-    window.lastCanLog = data.canlog;
-
-    addCanLog(
-        0x7E8,
-        8,
-        data.canlog
-    );
-}
-
-}
-
-        document.getElementById('connectionDot').className =
-            'status-dot connected';
-
-        document.getElementById('connectionStatus').innerText =
-            'Firebase Connected';
-
+            const dot = document.getElementById('connectionDot');
+            const stat = document.getElementById('connectionStatus');
+            if (dot) dot.className = 'status-dot connected';
+            if (stat) stat.innerText = 'Firebase Connected';
+        }
     } catch (err) {
-
-        document.getElementById('connectionDot').className =
-            'status-dot disconnected';
-
-        document.getElementById('connectionStatus').innerText =
-            'Firebase Error';
-
+        const dot = document.getElementById('connectionDot');
+        const stat = document.getElementById('connectionStatus');
+        if (dot) dot.className = 'status-dot disconnected';
+        if (stat) stat.innerText = 'Connection Error';
         console.error(err);
     }
 }
 
-if (isMonitoring) {
+let dataInterval = null;
 
-    firebaseInterval = setInterval(
-        readFirebaseData,
+if (isMonitoring) {
+    dataInterval = setInterval(
+        readVehicleData,
         500
     );
-
-    readFirebaseData();
+    readVehicleData();
 }
 
 /*
