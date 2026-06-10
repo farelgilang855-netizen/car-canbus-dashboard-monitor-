@@ -100,6 +100,115 @@ if (btnLogin) {
     }
 });
 
+// WiFi Settings DOM elements
+const btnWifiSettings = document.getElementById('btnWifiSettings');
+const wifiModal = document.getElementById('wifiModal');
+const btnCancelWifi = document.getElementById('btnCancelWifi');
+const btnSaveWifi = document.getElementById('btnSaveWifi');
+const wifiSSID = document.getElementById('wifiSSID');
+const wifiPass = document.getElementById('wifiPass');
+const wifiMessage = document.getElementById('wifiMessage');
+
+if (btnWifiSettings) {
+    btnWifiSettings.addEventListener('click', () => {
+        wifiModal.style.display = 'flex';
+        wifiMessage.style.display = 'none';
+        wifiSSID.value = '';
+        wifiPass.value = '';
+    });
+}
+
+if (btnCancelWifi) {
+    btnCancelWifi.addEventListener('click', () => {
+        wifiModal.style.display = 'none';
+    });
+}
+
+if (btnSaveWifi) {
+    btnSaveWifi.addEventListener('click', async () => {
+        const ssidVal = wifiSSID.value.trim();
+        const passVal = wifiPass.value.trim();
+
+        if (!ssidVal) {
+            wifiMessage.innerText = 'SSID tidak boleh kosong!';
+            wifiMessage.style.color = '#ff2a2a';
+            wifiMessage.style.display = 'block';
+            return;
+        }
+
+        wifiMessage.innerText = 'Menyimpan...';
+        wifiMessage.style.color = '#00f0ff';
+        wifiMessage.style.display = 'block';
+
+        const isRealESP32 = window.location.hostname !== 'localhost' && 
+                           window.location.hostname !== '127.0.0.1' && 
+                           window.location.hostname !== '' && 
+                           !window.location.hostname.includes('github.io');
+
+        if (isRealESP32) {
+            // Jalur Offline/Lokal (langsung ke ESP32)
+            try {
+                const formData = new FormData();
+                formData.append('ssid', ssidVal);
+                formData.append('pass', passVal);
+
+                const response = await fetch('/api/setwifi', {
+                    method: 'POST',
+                    body: formData
+                });
+                const res = await response.json();
+
+                if (res.status === 'ok') {
+                    wifiMessage.innerText = 'Berhasil! ESP32 akan restart.';
+                    wifiMessage.style.color = '#00ff88';
+                    setTimeout(() => {
+                        wifiModal.style.display = 'none';
+                    }, 2000);
+                } else {
+                    wifiMessage.innerText = res.message || 'Gagal menyimpan!';
+                    wifiMessage.style.color = '#ff2a2a';
+                }
+            } catch (err) {
+                wifiMessage.innerText = 'Koneksi gagal atau ESP32 me-restart.';
+                wifiMessage.style.color = '#ff9900';
+                console.error(err);
+            }
+        } else {
+            // Jalur Online (lewat Firebase)
+            try {
+                const url = 'https://cardashboardmonitor-default-rtdb.asia-southeast1.firebasedatabase.app/config.json';
+                const payload = {
+                    new_ssid: ssidVal,
+                    new_pass: passVal,
+                    timestamp: Date.now()
+                };
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (response.ok) {
+                    wifiMessage.innerText = 'Berhasil dikirim ke Firebase! ESP32 akan mengambil data ini saat online.';
+                    wifiMessage.style.color = '#00ff88';
+                    setTimeout(() => {
+                        wifiModal.style.display = 'none';
+                    }, 3000);
+                } else {
+                    wifiMessage.innerText = 'Gagal mengirim ke Firebase!';
+                    wifiMessage.style.color = '#ff2a2a';
+                }
+            } catch (err) {
+                wifiMessage.innerText = 'Gagal terhubung ke Firebase!';
+                wifiMessage.style.color = '#ff2a2a';
+                console.error(err);
+            }
+        }
+    });
+}
+
 // History Elements
 const btnHistory = document.getElementById('btnHistory');
 const historyView = document.getElementById('historyView');

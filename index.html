@@ -69,6 +69,7 @@
                 <button class="nav-btn active" id="btnDashboard">Dashboard</button>
                 <button class="nav-btn" id="btnLogs">CAN Logs</button>
                 <button class="nav-btn" id="btnHistory">Data Riwayat</button>
+                <button class="nav-btn" id="btnWifiSettings">Pengaturan Wi-Fi</button>
             </nav>
             <div class="sidebar-footer">
                 <button class="nav-btn" id="btnToggleSim" onclick="toggleMonitoring()">Stop Monitoring</button>
@@ -311,6 +312,48 @@
                     </div>
                 </div>
             </main>
+        </div>
+    </div>
+
+    <!-- WiFi Settings Modal -->
+    <div id="wifiModal" class="login-overlay" style="display: none;">
+        <div class="login-box glass-panel">
+            <div class="login-header">
+                <div class="login-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+                        <path d="M1.42 9a16 16 0 0 1 21.16 0" />
+                        <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+                        <line x1="12" y1="20" x2="12.01" y2="20" />
+                    </svg>
+                </div>
+                <h1>WiFi Configuration</h1>
+                <p>Ubah target koneksi Wi-Fi ESP32</p>
+            </div>
+            <div class="login-form">
+                <div class="input-group">
+                    <label>SSID (Nama Wi-Fi)</label>
+                    <input type="text" id="wifiSSID" placeholder="Masukkan SSID Baru" autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label>Password Wi-Fi</label>
+                    <input type="password" id="wifiPass" placeholder="Masukkan Password Baru">
+                </div>
+                <div id="wifiMessage" class="login-error" style="color: #00ffcc; display: none;"></div>
+                <div class="button-group-row">
+                    <button id="btnCancelWifi" class="btn-login btn-cancel">
+                        <span>BATAL</span>
+                    </button>
+                    <button id="btnSaveWifi" class="btn-login">
+                        <span>SIMPAN</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </div>
+            </div>
+            <div class="login-footer">
+                <span>WIFI MANAGER DUAL-MODE</span>
+            </div>
         </div>
     </div>
 
