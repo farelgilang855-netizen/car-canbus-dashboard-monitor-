@@ -171,17 +171,41 @@ if (btnCancelWifi) {
 }
 
 if (btnSaveWifi) {
-    btnSaveWifi.addEventListener('click', async () => {
+    btnSaveWifi.addEventListener('click', () => {
         const ssidVal = wifiSSID.value.trim();
         const passVal = wifiPass.value.trim();
 
-        if (!ssidVal) {
-            wifiMessage.innerText = 'SSID tidak boleh kosong!';
+        if (!ssidVal || !passVal) {
+            wifiMessage.innerText = 'SSID dan Password harus diisi!';
             wifiMessage.style.color = '#ff2a2a';
             wifiMessage.style.display = 'block';
             return;
         }
 
+        // Show confirmation modal
+        wifiMessage.style.display = 'none';
+        document.getElementById('confirmSSID').innerText = ssidVal;
+        document.getElementById('confirmPass').innerText = passVal;
+        document.getElementById('confirmWifiModal').style.display = 'flex';
+    });
+}
+
+const btnCancelConfirm = document.getElementById('btnCancelConfirm');
+const btnYesConfirm = document.getElementById('btnYesConfirm');
+
+if (btnCancelConfirm) {
+    btnCancelConfirm.addEventListener('click', () => {
+        document.getElementById('confirmWifiModal').style.display = 'none';
+    });
+}
+
+if (btnYesConfirm) {
+    btnYesConfirm.addEventListener('click', async () => {
+        const ssidVal = wifiSSID.value.trim();
+        const passVal = wifiPass.value.trim();
+        
+        document.getElementById('confirmWifiModal').style.display = 'none';
+        
         wifiMessage.innerText = 'Menyimpan...';
         wifiMessage.style.color = '#00f0ff';
         wifiMessage.style.display = 'block';
@@ -243,11 +267,11 @@ if (btnSaveWifi) {
                         wifiModal.style.display = 'none';
                     }, 3000);
                 } else {
-                    wifiMessage.innerText = 'Gagal mengirim ke Firebase!';
+                    wifiMessage.innerText = 'Gagal menyimpan ke Firebase.';
                     wifiMessage.style.color = '#ff2a2a';
                 }
             } catch (err) {
-                wifiMessage.innerText = 'Gagal terhubung ke Firebase!';
+                wifiMessage.innerText = 'Koneksi ke Firebase gagal.';
                 wifiMessage.style.color = '#ff2a2a';
                 console.error(err);
             }

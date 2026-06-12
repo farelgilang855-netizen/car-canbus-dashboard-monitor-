@@ -382,6 +382,39 @@
                     </button>
                 </div>
             </div>
+
+    <!-- Confirm WiFi Settings Modal -->
+    <div id="confirmWifiModal" class="login-overlay" style="display: none; z-index: 2000;">
+        <div class="login-box glass-panel">
+            <div class="login-header">
+                <div class="login-icon" style="color: var(--neon-orange); filter: drop-shadow(0 0 10px var(--neon-orange));">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+                <h1>Konfirmasi</h1>
+                <p>Apakah SSID dan Password sudah benar?</p>
+            </div>
+            <div class="login-form">
+                <div class="input-group" style="text-align: center; margin-bottom: 2rem;">
+                    <div style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.5rem;">SSID:</div>
+                    <div id="confirmSSID" style="color: var(--neon-blue); font-size: 1.2rem; font-weight: bold; word-break: break-all;"></div>
+                    <div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 1rem; margin-bottom: 0.5rem;">Password:</div>
+                    <div id="confirmPass" style="color: var(--neon-blue); font-size: 1.2rem; font-weight: bold; word-break: break-all;"></div>
+                </div>
+                <div class="button-group-row">
+                    <button id="btnCancelConfirm" class="btn-login btn-cancel">
+                        <span>KEMBALI</span>
+                    </button>
+                    <button id="btnYesConfirm" class="btn-login">
+                        <span>YA, SIMPAN</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
             <div class="login-footer">
                 <span>WIFI MANAGER DUAL-MODE</span>
             </div>
