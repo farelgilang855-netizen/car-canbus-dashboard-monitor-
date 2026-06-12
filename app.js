@@ -668,8 +668,14 @@ async function readVehicleData() {
             
             const dot = document.getElementById('connectionDot');
             const stat = document.getElementById('connectionStatus');
-            if (dot) dot.className = 'status-dot connected';
-            if (stat) stat.innerText = 'ECU Connected';
+            
+            if (data.ecu_connected === 0) {
+                if (dot) dot.className = 'status-dot disconnected';
+                if (stat) stat.innerText = 'ECU Disconnected';
+            } else {
+                if (dot) dot.className = 'status-dot connected';
+                if (stat) stat.innerText = 'ECU Connected';
+            }
 
         } else {
             // Jalur Online (Firebase)
@@ -693,16 +699,25 @@ async function readVehicleData() {
                 }
             }
 
-            const dot = document.getElementById('connectionDot');
-            const stat = document.getElementById('connectionStatus');
-            if (dot) dot.className = 'status-dot connected';
-            if (stat) stat.innerText = 'Firebase Connected';
+            // Update status only if we have fresh data
+            if (Date.now() - lastDataTime < 3000) {
+                const dot = document.getElementById('connectionDot');
+                const stat = document.getElementById('connectionStatus');
+                
+                if (data.ecu_connected === 0) {
+                    if (dot) dot.className = 'status-dot disconnected';
+                    if (stat) stat.innerText = 'ECU Disconnected';
+                } else {
+                    if (dot) dot.className = 'status-dot connected';
+                    if (stat) stat.innerText = 'ECU Connected';
+                }
+            }
         }
     } catch (err) {
         const dot = document.getElementById('connectionDot');
         const stat = document.getElementById('connectionStatus');
         if (dot) dot.className = 'status-dot disconnected';
-        if (stat) stat.innerText = 'Connection Error';
+        if (stat) stat.innerText = 'ECU Disconnected';
         console.error(err);
     }
 }
@@ -848,20 +863,15 @@ currentIntervalRpms = [];
 }, 10000);   // <- penutup history logging
 
 
-// Watchdog data Firebase
+// Watchdog data
 setInterval(() => {
-
-    if (Date.now() - lastDataTime > 3000) {
-
+    if (isMonitoring && (Date.now() - lastDataTime > 3000)) {
         resetDashboard();
+        
+        const connectionDot = document.getElementById('connectionDot');
+        const connectionStatus = document.getElementById('connectionStatus');
 
-        if (connectionDot)
-            connectionDot.className =
-                'status-dot disconnected';
-
-        if (connectionStatus)
-            connectionStatus.innerText =
-                'No Data';
+        if (connectionDot) connectionDot.className = 'status-dot disconnected';
+        if (connectionStatus) connectionStatus.innerText = 'ECU Disconnected';
     }
-
 }, 500);
