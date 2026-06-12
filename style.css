@@ -799,6 +799,34 @@ body {
     box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
 }
 
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    padding-right: 40px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+    padding: 0;
+}
+
+.toggle-password:hover {
+    color: var(--neon-blue);
+}
+
 .btn-login {
     width: 100%;
     padding: 15px;
