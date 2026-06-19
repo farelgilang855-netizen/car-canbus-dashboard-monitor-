@@ -835,6 +835,13 @@ if (btnDashboard && btnLogs) {
     });
 }
 
+// Auto-refresh grafik riwayat setiap 10 detik jika sedang dibuka
+setInterval(() => {
+    if (historyView && historyView.style.display === 'block') {
+        loadFirebaseHistory();
+    }
+}, 10000);
+
 // -------------------------------------------------------------
 // FIREBASE HISTORY LOGIC
 // -------------------------------------------------------------
