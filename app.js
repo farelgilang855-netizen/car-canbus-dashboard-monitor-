@@ -835,9 +835,9 @@ if (btnDashboard && btnLogs) {
     });
 }
 
-// Auto-refresh grafik riwayat setiap 10 detik jika sedang dibuka
+// Auto-refresh grafik riwayat setiap 10 detik jika sedang dibuka DAN sedang monitoring
 setInterval(() => {
-    if (historyView && historyView.style.display === 'block') {
+    if (isMonitoring && historyView && historyView.style.display === 'block') {
         loadFirebaseHistory();
     }
 }, 10000);
