@@ -9,6 +9,7 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Orbitron:wght@500;700;900&family=Outfit:wght@600;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=41">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -320,21 +321,9 @@
                 </div>
 
                 <div class="glass-panel widget log-widget" style="margin-top: 2rem;">
-                    <h2>10-Second Interval History</h2>
-                    <div class="table-container">
-                        <table class="can-log-table">
-                            <thead>
-                                <tr>
-                                    <th>Timestamp</th>
-                                    <th>Avg Speed (km/h)</th>
-                                    <th>Avg RPM (x1000)</th>
-                                    <th>Condition</th>
-                                </tr>
-                            </thead>
-                            <tbody id="historyBody">
-                                <!-- History data will be inserted here -->
-                            </tbody>
-                        </table>
+                    <h2>Grafik Riwayat Perjalanan (Firebase)</h2>
+                    <div style="position: relative; height:400px; width:100%;">
+                        <canvas id="historyChart"></canvas>
                     </div>
                 </div>
             </main>
