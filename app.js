@@ -910,6 +910,52 @@ async function loadFirebaseHistory() {
 }
 
 
+// -------------------------------------------------------------
+// CLEAR HISTORY LOGIC
+// -------------------------------------------------------------
+const btnClearHistory = document.getElementById('btnClearHistory');
+if (btnClearHistory) {
+    btnClearHistory.addEventListener('click', async () => {
+        const confirmDelete = confirm("Apakah Anda yakin ingin menghapus seluruh data riwayat secara permanen? Data yang dihapus tidak dapat dikembalikan.");
+        if (!confirmDelete) return;
+        
+        btnClearHistory.innerText = "Menghapus...";
+        btnClearHistory.disabled = true;
+        
+        try {
+            const response = await fetch('https://cardashboardmonitor-default-rtdb.asia-southeast1.firebasedatabase.app/history.json', {
+                method: 'DELETE'
+            });
+            
+            if (response.ok) {
+                alert("Data riwayat berhasil dihapus dari Firebase!");
+                // Bersihkan tabel di layar
+                const historyBody = document.getElementById('historyBody');
+                if (historyBody) historyBody.innerHTML = '';
+                
+                // Reset text statistik
+                if (overallAvgSpeedEl) overallAvgSpeedEl.innerText = "0 km/h";
+                if (overallAvgRpmEl) overallAvgRpmEl.innerText = "0";
+            } else {
+                alert("Gagal menghapus data riwayat.");
+            }
+        } catch (error) {
+            console.error("Gagal menghapus riwayat:", error);
+            alert("Terjadi kesalahan jaringan.");
+        }
+        
+        // Kembalikan tombol ke kondisi semula
+        btnClearHistory.innerHTML = `
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 5px;">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            Hapus Riwayat
+        `;
+        btnClearHistory.disabled = false;
+    });
+}
+
 // Watchdog data
 setInterval(() => {
     if (isMonitoring && (Date.now() - lastDataTime > 3000)) {
