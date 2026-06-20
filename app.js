@@ -845,7 +845,6 @@ setInterval(() => {
 // -------------------------------------------------------------
 // FIREBASE HISTORY LOGIC
 // -------------------------------------------------------------
-let historyChartInstance = null;
 
 async function loadFirebaseHistory() {
     try {
@@ -857,14 +856,11 @@ async function loadFirebaseHistory() {
         // Data Firebase bentuknya object dengan key unik, kita ubah jadi array
         const dataArray = Object.keys(data).map(key => data[key]);
         
-        // Sort berdasarkan timestamp (waktu)
-        dataArray.sort((a, b) => a.timestamp - b.timestamp);
+        // Sort berdasarkan timestamp (waktu) TERBARU di atas
+        dataArray.sort((a, b) => b.timestamp - a.timestamp);
         
-        // Siapkan array untuk Chart.js
-        const labels = [];
-        const speedData = [];
-        const rpmData = [];
-        const tempData = [];
+        const historyBody = document.getElementById('historyBody');
+        if (historyBody) historyBody.innerHTML = '';
         
         let sumSpeedFirebase = 0;
         let sumRpmFirebase = 0;
@@ -874,14 +870,30 @@ async function loadFirebaseHistory() {
             const dateObj = new Date(item.timestamp);
             const timeString = dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
             const dateString = dateObj.toLocaleDateString();
-            labels.push(`${dateString} ${timeString}`);
-            
-            speedData.push(item.speed);
-            rpmData.push(item.rpm);
-            tempData.push(item.temp);
             
             sumSpeedFirebase += item.speed;
             sumRpmFirebase += item.rpm;
+            
+            let condition = "OPTIMAL";
+            let conditionClass = "state-yellow";
+            if (item.temp < 80) {
+                condition = "COLD";
+                conditionClass = "state-blue";
+            } else if (item.temp > 105) {
+                condition = "OVERHEAT";
+                conditionClass = "state-red";
+            }
+
+            if (historyBody) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${dateString} ${timeString}</td>
+                    <td>${item.speed.toFixed(1)}</td>
+                    <td>${item.rpm}</td>
+                    <td class="${conditionClass}" style="font-weight: 800; text-shadow: none;">${condition}</td>
+                `;
+                historyBody.appendChild(row);
+            }
         });
         
         // Update statistik atas
@@ -892,95 +904,9 @@ async function loadFirebaseHistory() {
             overallAvgRpmEl.innerText = `${(sumRpmFirebase / dataArray.length).toFixed(0)}`;
         }
         
-        // Gambar Grafik
-        renderChart(labels, speedData, rpmData, tempData);
-        
     } catch (error) {
         console.error("Gagal mengambil riwayat Firebase:", error);
     }
-}
-
-function renderChart(labels, speedData, rpmData, tempData) {
-    const ctx = document.getElementById('historyChart').getContext('2d');
-    
-    // Hapus grafik lama jika ada
-    if (historyChartInstance) {
-        historyChartInstance.destroy();
-    }
-    
-    Chart.defaults.color = 'rgba(255, 255, 255, 0.7)';
-    Chart.defaults.font.family = "'Inter', sans-serif";
-    
-    historyChartInstance = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                    label: 'Speed (km/h)',
-                    data: speedData,
-                    borderColor: '#00f3ff',
-                    backgroundColor: 'rgba(0, 243, 255, 0.1)',
-                    borderWidth: 2,
-                    tension: 0.4,
-                    fill: true,
-                    yAxisID: 'y'
-                },
-                {
-                    label: 'RPM',
-                    data: rpmData,
-                    borderColor: '#ff00ff',
-                    backgroundColor: 'rgba(255, 0, 255, 0.1)',
-                    borderWidth: 2,
-                    tension: 0.4,
-                    fill: false,
-                    yAxisID: 'y1'
-                },
-                {
-                    label: 'Temp (\u00B0C)',
-                    data: tempData,
-                    borderColor: '#ff3333',
-                    backgroundColor: 'rgba(255, 51, 51, 0.1)',
-                    borderWidth: 2,
-                    tension: 0.4,
-                    fill: false,
-                    yAxisID: 'y'
-                }
-            ]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: {
-                mode: 'index',
-                intersect: false,
-            },
-            plugins: {
-                legend: {
-                    position: 'top',
-                }
-            },
-            scales: {
-                x: {
-                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
-                },
-                y: {
-                    type: 'linear',
-                    display: true,
-                    position: 'left',
-                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                    title: { display: true, text: 'Speed / Temp' }
-                },
-                y1: {
-                    type: 'linear',
-                    display: true,
-                    position: 'right',
-                    grid: { drawOnChartArea: false },
-                    title: { display: true, text: 'RPM' }
-                }
-            }
-        }
-    });
 }
 
 

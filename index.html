@@ -321,9 +321,21 @@
                 </div>
 
                 <div class="glass-panel widget log-widget" style="margin-top: 2rem;">
-                    <h2>Grafik Riwayat Perjalanan (Firebase)</h2>
-                    <div style="position: relative; height:400px; width:100%;">
-                        <canvas id="historyChart"></canvas>
+                    <h2>Tabel Riwayat Perjalanan (Firebase)</h2>
+                    <div class="table-container">
+                        <table class="can-log-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Avg Speed (km/h)</th>
+                                    <th>Avg RPM</th>
+                                    <th>Condition</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyBody">
+                                <!-- History data will be inserted here -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </main>
