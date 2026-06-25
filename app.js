@@ -508,6 +508,9 @@ function resetDashboard() {
 
     tempFill.style.width = "0%";
     fuelFill.style.width = "0%";
+    
+    const wifiNameEl = document.getElementById('wifiName');
+    if (wifiNameEl) wifiNameEl.innerText = "--";
     batteryFill.style.width = "0%";
     throttleFill.style.width = "0%";
     loadFill.style.width = "0%";
@@ -725,7 +728,7 @@ async function readVehicleData() {
             if (data.timestamp !== undefined) {
                 if (data.timestamp !== lastTimestamp) {
                     lastTimestamp = data.timestamp;
-                    lastDataTime = Date.now();
+                    lastDataTime = data.timestamp; // Gunakan waktu asli dari server Firebase!
                     updateDashboard(data);
                 }
             }
@@ -835,12 +838,12 @@ if (btnDashboard && btnLogs) {
     });
 }
 
-// Auto-refresh grafik riwayat setiap 10 detik jika sedang dibuka DAN sedang monitoring
+// Auto-refresh grafik riwayat setiap 30 detik jika sedang dibuka DAN sedang monitoring
 setInterval(() => {
     if (isMonitoring && historyView && historyView.style.display === 'block') {
         loadFirebaseHistory();
     }
-}, 10000);
+}, 30000);
 
 // -------------------------------------------------------------
 // FIREBASE HISTORY LOGIC
